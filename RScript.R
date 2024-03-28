@@ -31,7 +31,7 @@ install.packages("ggplot2")
 
 # Import package - to be added more if needed
 library(ggplot2)
-library(dplyr)
+library(dplyr) #when I run this line, given me error that there is no package called 'dplyr'(mia)
 
 # Import dataset
 dataset.df <- read.csv("./Excel File/TimeOnSocialMedia.csv")
@@ -40,5 +40,25 @@ dataset.df <- read.csv("./Excel File/TimeOnSocialMedia.csv")
 head(dataset.df)
 tail(dataset.df)
 
+#Mean for time spent value
+Time_spent_Mean <- mean(dataset.df$time_spent)
+Time_spent_Mean
 
+#Median for time spent value
+Time_spent_Median <- median(dataset.df$time_spent)
+Time_spent_Median
 
+#Standard deviation for time spent value 
+Time_spent_Standard_deviation <- sd(dataset.df$time_spent)
+Time_spent_Standard_deviation
+
+#range for time spent value
+Time_spent_range <- range(dataset.df$time_spent)
+Time_spent_range
+
+#quartiles for time spent value
+Time_spent_quartiles <- quantile(dataset.df$time_spent)
+Time_spent_quartiles
+
+#use summary() function to double check the result
+summary(dataset.df$time_spent)
