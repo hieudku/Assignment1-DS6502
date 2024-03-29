@@ -80,13 +80,14 @@ barplot(time_spent_count)
 
 #create a bar plot
 barplot(time_spent_count, main = "Time spent on social media platforms", xlab = "Platform", 
-        ylab = "Time spent (h)")
+        ylab = "Time spent (h)") # Great graphs so far! But I think time spent should be 1 - 9 (x-axis) and participants's count from 0 -120 (y-axis)! 
+                                # I might be wrong haha (hieu)
 
 #bar plot to show the trend of time spent over different platforms
 Mybarplot <- ggplot(data = dataset.df, aes(x = as.character(platform), 
                                            fill = as.character(platform))) + 
   geom_bar(stat = "count") + labs(title = "Time spent on social media platforms",
-                                            x = "Platform", y = "Time spent (h)") 
+                                            x = "Platform", y = "Time spent (h)") # Do the x and y axis also affect this graph or? (hieu)
 Mybarplot  
 
 ######################
