@@ -62,3 +62,23 @@ Time_spent_quartiles
 
 #use summary() function to double check the result
 summary(dataset.df$time_spent)
+
+#Havent found out any missing or inconsistencies values, so skip Q3 (mia)
+
+
+#count the number of each time spent  value
+time_spent_count <- table(dataset.df$time_spent)
+
+#basic bar plot
+barplot(time_spent_count)
+
+#create a bar plot
+barplot(time_spent_count, main = "Time spent on social media platforms", xlab = "Platform", 
+        ylab = "Time spent (h)")
+
+#bar plot to show the trend of time spent over different platforms
+Mybarplot <- ggplot(data = dataset.df, aes(x = as.character(platform), 
+                                           fill = as.character(platform))) + 
+  geom_bar(stat = "count") + labs(title = "Time spent on social media platforms",
+                                            x = "Platform", y = "Time spent (h)") 
+Mybarplot  
