@@ -87,7 +87,7 @@ barplot(time_spent_count, main = "Time spent on social media platforms", xlab = 
 Mybarplot <- ggplot(data = dataset.df, aes(x = as.character(platform), 
                                            fill = as.character(platform))) + 
   geom_bar(stat = "count") + labs(title = "Time spent on social media platforms",
-                                            x = "Platform", y = "Time spent (h)") # Do the x and y axis also affect this graph or? (hieu)
+                                            x = "Platform", y = "Time spent (h)") # Nice graph! Do the x and y axis also affect this graph or? (hieu)
 Mybarplot  
 
 ######################
