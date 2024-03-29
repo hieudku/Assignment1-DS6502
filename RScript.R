@@ -1,5 +1,3 @@
-
-
 # frances branch new new 1234567
 
 
@@ -191,3 +189,35 @@ ggplot(dataset.df, aes(x = factor(dataset.df$age_group), y = time_spent)) +
   )
 
 ####################################
+#(Frances) bar plot of average time spent by gender
+# to analyze if there are significant differences in social media usage patterns between different gender identities
+#count the number of each time spent  value
+time_spent_count <- table(dataset.df$time_spent)
+
+#basic bar plot
+barplot(time_spent_count)
+
+#bar plot to show the average time spent by different gender identities
+
+average_plot <- ggplot(data= dataset.df, aes( x = gender,y = time_spent)) +
+  stat_summary(fun = "mean", geom = "bar", fill = c("blue","red","orange"), color = "black", alpha = 0.6) +
+  labs(title = "Average Time Spent by Gender", x = "Gender", y = "Average Time Spent")
+average_plot
+
+#(Frances) stacked bar plot of average time spent by location and Platform
+# to show the relationship among average time, location (3 countries), and platform.
+# got a problem here, the number of y axis seems wrong!!!!!!!!!!! 
+Time_spent_Mean <- mean(dataset.df$time_spent)
+
+stacked_bar_plot <- ggplot(data= dataset.df, aes(x = location, y = Time_spent_Mean, fill = platform)) + 
+                    geom_bar(stat = "identity", position = "stack") +
+                    labs(title = "Average Time Spent by Location and Platform on Social Media",
+                        x = "Location", y = "Average Time Spent")
+
+stacked_bar_plot
+########################## Time 2024-03-30-0:31 Frances################
+
+
+
+
+
