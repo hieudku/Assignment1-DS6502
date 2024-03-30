@@ -254,3 +254,20 @@ for(col in names(dataset.df)) {
 }
 
 ######################################
+
+#(Frances)average time spent in different income groups by prefession
+# group the income
+dataset.df$income_group <- cut(dataset.df$income, breaks = c(10012, 12512, 15012, 17512, 19980), include.lowest = TRUE, right = FALSE,
+                            labels = c("10012-12511", "12512-15011", "15012-17511", "17512-19980")) 
+
+#group a new dataset, %>% is a chain operator to chain together multiple operations
+#The .groups = "drop" argument ensures that the grouping is dropped after summarization to avoid issues with plotting.
+dataset1 <- dataset.df %>% group_by(profession, income_group) %>% summarize(avg_time = mean(time_spent), .groups = 'drop')
+
+ggplot(data = dataset1, mapping = aes(x=income_group, y=avg_time, color=profession, group = profession)) + 
+      geom_line() + geom_point() + 
+      labs(title = "Average Time Spent on Social Media by Income Group, by Profession",  x = "Income Group", y = "Average Time Spent")
+
+########################## Time 2024-03-31-1:13 Frances ￥################
+
+
