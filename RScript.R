@@ -118,25 +118,29 @@ summary(dataset.df$income)
 
 ############################### Q4 - Plot Graphs ########################################################################
 
-###### Time spent count & Total Time Spent vs Platform ########## 
 
-#count the number of each time spent  value
-time_spent_count <- table(dataset.df$time_spent)
+###### Average Time Spent vs Platform ########## 
 
-#basic bar plot
-barplot(time_spent_count)
+# Had go for the average time of each platform index of the total time of each platform
+# Good the analysis in the futher report rather than to analysis the total time spent
+# The plot shows the average of each platform near 5, which is near the mean of the time spent (5.029)
+# The plot also shows which platform is used more on average
+### Mia
 
-#create a bar plot
-barplot(time_spent_count, main = "Time spent on social media platforms", xlab = "Platform", 
-        ylab = "Time spent (h)") # Great graphs so far! But I think time spent should be 1 - 9 (x-axis) and participants's count from 0 -120 (y-axis)! 
-# I might be wrong haha (hieu)
+#Calculate the average time of each platform
+platform_time_spent <- aggregate(time_spent ~ platform, data = dataset.df, FUN = mean)
 
-#bar plot to show the trend of time spent over different platforms
-Mybarplot <- ggplot(data = dataset.df, aes(x = as.character(platform), 
-                                           fill = as.character(platform))) + 
-  geom_bar(stat = "count") + labs(title = "Time spent on social media platforms",
-                                  x = "Platform", y = "Time spent (h)") # Nice graph! Do the x and y axis also affect this graph or? (hieu)
-Mybarplot  
+#Bar parplot vs platform
+Average_time_barplot <- ggplot(platform_time_spent, aes(x = platform, y = time_spent, fill = platform)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Time Spent on Social Media by Platform",
+       x = "Platform",
+       y = "Time Spent (hours)") + theme(plot.title = element_text(hjust = 0.5, size = 20, face = "bold"), #center the title, front size to 20 and bold
+                                         axis.text = element_text(colour = "brown", size = 10, face = "bold"), #color the x and y label, front size to 10 and bold 
+                                         axis.title.x = element_text(size = 15, face = "bold"), #front size 15 and bold the x title
+                                         axis.title.y = element_text(size = 15, face = "bold")) #front size 15 and bold the y title
+
+Average_time_barplot 
 
 ##########################################################
 
