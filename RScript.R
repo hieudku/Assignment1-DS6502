@@ -1,20 +1,5 @@
 # frances branch new new 1234567
 
-######################################## 
-#### Adya Q4- heatmaps ####
-
-# Installing the required package
-install.packages("reshape2")
-
-# Loading from the library
-library(reshape2)
-
-# Preparing the dataset
-dataset.melt <- melt(dataset.df)
-
-
-# Calculating average time spent by gender
-avg_time_spent <- aggregate(time_spent ~ gender, dataset.df, mean)
 
 # frances branch new
 # this is my branch 202403280
@@ -225,7 +210,21 @@ stacked_bar_plot
 
 
 
+######################################## 
+#### Adya Q4- heatmaps ####
 
+# Installing the required package
+install.packages("reshape2")
+
+# Loading from the library
+library(reshape2)
+
+# Preparing the dataset
+dataset.melt <- melt(dataset.df)
+
+
+# Calculating average time spent by gender
+avg_time_spent <- aggregate(time_spent ~ gender, dataset.df, mean)
 
 
 # Convert the data to long format for the heatmap
