@@ -278,6 +278,16 @@ ggplot(data = dataset1, mapping = aes(x=income_group, y=avg_time, color=professi
 
 #### Heatmap of timespent by Gender and Age ####
 
+# How to read this heatmap (I talked to Hoang about heatmap at the end of a lab)
+# - Darker or more intense colors typically represent higher values, while lighter colors represent lower values
+# - Clusters of similar colors can indicate a relationship or trend between the variables.
+# - For example, age 28 has similar trend across all 3(?) genders, this is horizontal cluster
+# - And another example, non-binary aged 33-40 has almost similar shade, this is vertical cluster, and so on.
+# - To be added more into the report when I have time.
+
+# of course we can do something similar with income or something?
+#(hieu)
+
 dataset_subset <- subset(dataset.df, gender %in% c("male", "female", "non-binary"))
 
 Time_Gender_Age_heatmap <- ggplot(data = dataset_subset, aes(x = gender , y = age)) +
@@ -290,13 +300,62 @@ Time_Gender_Age_heatmap <- ggplot(data = dataset_subset, aes(x = gender , y = ag
 
 Time_Gender_Age_heatmap
 
-# How to read this heatmap (I talked to Hoang about heatmap at the end of a lab)
-# - Darker or more intense colors typically represent higher values, while lighter colors represent lower values
-# - Clusters of similar colors can indicate a relationship or trend between the variables.
-# - For example, age 28 has similar trend across all 3(?) genders, this is horizontal cluster
-# - And another example, non-binary aged 33-40 has almost similar shade, this is vertical cluster, and so on.
-# - To be added more into the report when I have time.
 
-# of course we can do something similar with income or something?
-#(hieu)
+###############################################
+
+
+#### Frances's problem - stacked bar chart for location, platform vs time spent & y axis value issue ####
+
+# I think since we know there are more participants in Australia > UK > US from Frances's chart, as explained in the group chat, 
+# there is a bias toward the total percentage of the time spent for each countries.(Australia has the most participants so they will also likely to have the most time spent % out of 3 countries)
+# Therefore, it makes sense to try to find the percentage of each platform inside EACH country instead.
+
+# Below is a representation of number of particiants in each country, which looks pretty similar to Frances's stack bar chart as I anticipated:
+
+######### Participants chart
+# Count the number of participants from each country
+participant_count <- table(dataset.df$location)
+
+# Convert the participant count to a data frame
+participant_count_df <- data.frame(
+  country = names(participant_count),
+  count = as.numeric(participant_count)
+)
+
+# Create a bar chart
+ggplot(participant_count_df, aes(x = country, y = count, fill = country)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Number of Participants by Country", x = "Country", y = "Number of Participants") +
+  theme(legend.position = "none")
+
+
+
+#### My (possible) solution: #####
+
+# Below are the pie charts to show percentages of time spent for each country.
+# - I think these 3 pie charts will complement Frances's stacked bar chart in some way, as it show clear percentages
+# of each platform across 3 countries. Because Frances's chart shows total values, while percentage imo is better represented 
+# by pie charts, without bias from the difference in number of participants in our dataset. From here, we can see which platform is more or less popular in each country, which may help us to conclude
+# our findings later in the report. Therefore we might want to keep both graphs on the visual and written report to complement eachothers.
+
+######## Pie charts
+# Calculate percentage of time spent for each location and platform
+pie.df <- dataset.df %>%
+  group_by(location, platform) %>%
+  summarize(total_time = sum(time_spent)) %>%
+  mutate(percentage = total_time / sum(total_time) * 100)
+
+# Create pie charts
+Time_Platform_Location_piechart <- ggplot(pie.df, aes(x = "", y = percentage, fill = platform)) +
+  geom_bar(stat = "identity", color = "white") +
+  coord_polar("y") +
+  facet_wrap(~location) +
+  theme_void() +
+  theme(legend.position = "bottom") +
+  labs(title = "Percentage of Time Spent on Platforms by Location", fill = "Platform") +
+  geom_text(aes(label = paste0(round(percentage, 2), "%")), position = position_stack(vjust = 0.5))
+
+Time_Platform_Location_piechart
+
 ###############################################
