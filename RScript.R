@@ -275,3 +275,28 @@ ggplot(data = dataset1, mapping = aes(x=income_group, y=avg_time, color=professi
 ########################## Time 2024-03-31-1:13 Frances ￥################
 
 
+
+#### Heatmap of timespent by Gender and Age ####
+
+dataset_subset <- subset(dataset.df, gender %in% c("male", "female", "non-binary"))
+
+Time_Gender_Age_heatmap <- ggplot(data = dataset_subset, aes(x = gender , y = age)) +
+  geom_tile(aes(fill = time_spent))+
+  scale_fill_gradient(low = "white", high = "darkgreen") +
+  labs(title = "Heatmap of Time spent by Gender and Age",
+      x = "Gender",
+      y = "Age (years)",
+      fill = "Time spent")
+
+Time_Gender_Age_heatmap
+
+# How to read this heatmap (I talked to Hoang about heatmap at the end of a lab)
+# - Darker or more intense colors typically represent higher values, while lighter colors represent lower values
+# - Clusters of similar colors can indicate a relationship or trend between the variables.
+# - For example, age 28 has similar trend across all 3(?) genders, this is horizontal cluster
+# - And another example, non-binary aged 33-40 has almost similar shade, this is vertical cluster, and so on.
+# - To be added more into the report when I have time.
+
+# of course we can do something similar with income or something?
+#(hieu)
+###############################################
