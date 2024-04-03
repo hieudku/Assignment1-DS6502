@@ -50,6 +50,10 @@ Time_spent_Standard_deviation
 Time_spent_range <- range(dataset.df$time_spent)
 Time_spent_range
 
+# Min Max
+min_time_spent <- min(dataset.df$time_spent)
+max_time_spent <- max(dataset.df$time_spent)
+                      
 #quartiles for time spent value
 Time_spent_quartiles <- quantile(dataset.df$time_spent)
 Time_spent_quartiles
@@ -359,3 +363,36 @@ Time_Platform_Location_piechart <- ggplot(pie.df, aes(x = "", y = percentage, fi
 Time_Platform_Location_piechart
 
 ###############################################
+
+
+# Create a normal distribution plot
+ggplot(dataset.df, aes(x = time_spent)) +
+  stat_function(fun = dnorm, args = list(mean = Time_spent_Mean, sd = Time_spent_Standard_deviation), 
+                color = "blue", size = 1.5) +
+  geom_histogram(aes(y = ..density..), binwidth = 1, color = "black", fill = "lightgray", alpha = 0.5) +
+  scale_x_continuous(breaks = seq(min(dataset.df$time_spent), max(dataset.df$time_spent), by = 1)) + # show all time spent values on x (1-9)
+  labs(x = "Time Spent", y = "Density") +
+  ggtitle("Normal Distribution Plot for Time Spent")
+
+# No clear sign of normal distribution > lack of trend and evenly distributed in time spent. Maybe include reasons for why we DONT add this to the repot instead of including it?
+
+# Use this instead of Standard Deviation? - Histogram and density curve of Time Spent
+# Note:  the density values on the y-axis of a density plot is the probabilty of observing data points at different values along the time spent x-axis
+ggplot(dataset.df, aes(x = time_spent)) +
+  geom_histogram(binwidth = 1, color = "black", aes(y = ..density.., fill = ..count..), alpha = 0.5) +
+  geom_density(alpha = 1, color = "blue") + # Density curve, look at peak and tails
+  labs(x = "Time Spent", y = "Density") +
+  scale_x_continuous(breaks = seq(min(dataset.df$time_spent), max(dataset.df$time_spent), by = 1)) + # show all time spent values on x (1-9)
+  scale_fill_gradient(low = "green", high = "red") +
+  ggtitle("Histogram with Density Curve for Time Spent") +
+  
+  annotate("text", x = Inf, y = Inf, hjust = 1, vjust = 1, # Add descriptive statistics: mean, median etc to the histogram
+           label = paste("Mean:", round(Time_spent_Mean, 2), "\n",
+                         "Median:", round(Time_spent_Median, 2), "\n",
+                         "SD:", round(Time_spent_Standard_deviation, 2), "\n",
+                         "Min:", min_time_spent, "\n",
+                         "Max:", max_time_spent)) +
+  facet_wrap(~ location) # Solution to lack of trends - we compare between countries!
+
+# This one not much better, but at lease we include SD in it to make predictions:
+# 
