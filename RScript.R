@@ -61,59 +61,6 @@ Time_spent_quartiles
 #use summary() function to double check the result
 summary(dataset.df$time_spent)
 
-#### Age column ####
-
-# Mean for for participant's ages
-Age_Mean <- mean(dataset.df$age)
-cat("Age mean: ", Age_Mean)
-
-# Median for participant's ages
-Age_Median <- median(dataset.df$age)
-cat("Age median: ", Age_Median)
-
-# Standard deviation for for participant's ages
-Age_Standard_Deviation <- sd(dataset.df$age)
-cat("Age standard deviation: ", Age_Standard_Deviation)
-
-# range for for participant's ages
-Age_Range <- range(dataset.df$age)
-cat("Age range: ", Age_Range)
-
-# quartiles for time spent value
-Age_Quartiles <- quantile(dataset.df$age)
-cat("Age quartiles: ", Age_Quartiles)
-
-#use summary() function to double check the result
-summary(dataset.df$age)
-
-#####################
-
-
-#### Income column ####
-
-# Mean for for participant's income
-Income_Mean <- mean(dataset.df$income)
-cat("Income mean: ", Income_Mean)
-
-# Median for participant's income
-Income_Median <- median(dataset.df$income)
-cat("Income median: ", Income_Median)
-
-# Standard deviation for for participant's income
-Income_Standard_Deviation <- sd(dataset.df$income)
-cat("Income standard deviation: ", Income_Standard_Deviation)
-
-# range for for participant's income
-Income_Range <- range(dataset.df$income)
-cat("Income range: ", Income_Range)
-
-# quartiles for income
-Income_Quartiles <- quantile(dataset.df$income)
-cat("Income quartiles: ", Income_Quartiles)
-
-#use summary() function to double check the result
-summary(dataset.df$income)
-
 
 
 ######################
@@ -302,7 +249,7 @@ dataset_subset <- subset(dataset.df, gender %in% c("male", "female", "non-binary
 Time_Gender_Age_heatmap <- ggplot(data = dataset_subset, aes(x = gender , y = age)) +
   geom_tile(aes(fill = time_spent))+
   scale_fill_gradient(low = "white", high = "darkgreen") +
-  labs(title = "Heatmap of Time spent by Gender and Age",
+  labs(title = "Heatmap of Time spent by Gender and Age between homeowners (true) and renters (false)",
       x = "Gender",
       y = "Age (years)",
       fill = "Time spent") +
@@ -402,3 +349,23 @@ ggplot(dataset.df, aes(x = time_spent)) +
 
 # This one not much better, but at lease we include SD in it to make predictions:
 # 
+
+
+## Simple boxplot ##
+timeSpent_boxplot <- ggplot(dataset.df, aes(y = time_spent)) +
+  geom_boxplot() + 
+  geom_point(aes(x = 0),color = "red", size = 3) +
+  geom_text(aes(x = 0.05),label = dataset.df$time_spent, vjust = -0.5, size = 3) +
+  scale_y_continuous(labels = scales::comma) +
+  ylab("Time Spent") +
+  ggtitle("Boxplot of time spent on social media") +
+  
+  annotate("text", x = 0.2, y = Inf, hjust = 0, vjust = 1,
+           label = paste("Mean:", round(mean(dataset.df$time_spent), 2), "\n",
+                         "Median:", round(median(dataset.df$time_spent), 2), "\n",
+                         "SD:", round(sd(dataset.df$time_spent), 2), "\n",
+                         "Min:", min(dataset.df$time_spent), "\n",
+                         "Max:", max(dataset.df$time_spent)))
+
+
+print(timeSpent_boxplot)
