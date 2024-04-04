@@ -246,16 +246,26 @@ ggplot(data = dataset1, mapping = aes(x=income_group, y=avg_time, color=professi
 
 dataset_subset <- subset(dataset.df, gender %in% c("male", "female", "non-binary"))
 
-Time_Gender_Age_heatmap <- ggplot(data = dataset_subset, aes(x = gender , y = age)) +
+# Single heatmap #
+ggplot(data = dataset_subset, aes(x = gender , y = age)) +
+  geom_tile(aes(fill = time_spent))+
+  scale_fill_gradient(low = "white", high = "darkgreen") +
+  labs(title = "Heatmap of Time spent by Gender and Age between homeowners (true) and renters (false)",
+       x = "Gender",
+       y = "Age (years)",
+       fill = "Time spent")
+
+# Heatmaps by platforms #
+ggplot(data = dataset_subset, aes(x = gender , y = age)) +
   geom_tile(aes(fill = time_spent))+
   scale_fill_gradient(low = "white", high = "darkgreen") +
   labs(title = "Heatmap of Time spent by Gender and Age between homeowners (true) and renters (false)",
       x = "Gender",
       y = "Age (years)",
       fill = "Time spent") +
-  facet_wrap(~isHomeOwner)
+  facet_wrap(~platform)
 
-Time_Gender_Age_heatmap
+
 
 # keep ^
 ###############################################
@@ -331,6 +341,19 @@ ggplot(dataset.df, aes(x = time_spent)) +
 
 # Use this instead of Standard Deviation? - Histogram and density curve of Time Spent
 # Note:  the density values on the y-axis of a density plot is the probabilty of observing data points at different values along the time spent x-axis
+
+# Histogram by location #
+ggplot(dataset.df, aes(x = time_spent)) +
+  geom_histogram(binwidth = 1, color = "black", aes(y = ..density.., fill = ..count..), alpha = 0.5) +
+  geom_density(alpha = 1, color = "blue") + # Density curve, look at peak and tails
+  labs(x = "Time Spent", y = "Density") +
+  scale_x_continuous(breaks = seq(min(dataset.df$time_spent), max(dataset.df$time_spent), by = 1)) + # show all time spent values on x (1-9)
+  scale_fill_gradient(low = "green", high = "red") +
+  ggtitle("Histogram with Density Curve for Time Spent") +
+  
+  facet_wrap(~ gender) # Solution to lack of trends - we compare between countries!
+
+# Single histogram #
 ggplot(dataset.df, aes(x = time_spent)) +
   geom_histogram(binwidth = 1, color = "black", aes(y = ..density.., fill = ..count..), alpha = 0.5) +
   geom_density(alpha = 1, color = "blue") + # Density curve, look at peak and tails
@@ -344,8 +367,7 @@ ggplot(dataset.df, aes(x = time_spent)) +
                          "Median:", round(Time_spent_Median, 2), "\n",
                          "SD:", round(Time_spent_Standard_deviation, 2), "\n",
                          "Min:", min_time_spent, "\n",
-                         "Max:", max_time_spent)) +
-  facet_wrap(~ location) # Solution to lack of trends - we compare between countries!
+                         "Max:", max_time_spent))
 
 # This one not much better, but at lease we include SD in it to make predictions:
 # 
