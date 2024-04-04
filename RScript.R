@@ -145,7 +145,7 @@ Average_time_barplot <- ggplot(platform_time_spent, aes(x = platform, y = time_s
                                          axis.title.y = element_text(size = 15, face = "bold")) #front size 15 and bold the y title
 
 Average_time_barplot 
-
+#keep^
 ##########################################################
 
 # Other graphs ideas: 
@@ -186,7 +186,8 @@ ggplot(dataset.df, aes(x = factor(dataset.df$age_group), y = time_spent)) +
     axis.text.x = element_text(angle = 45, hjust = 1), 
     legend.position = "bottom" # Position the legend at the bottom
   )
-
+# keep^
+# make text appear on top of the bars
 ####################################
 #(Frances) bar plot of average time spent by gender
 # to analyze if there are significant differences in social media usage patterns between different gender identities
@@ -202,18 +203,20 @@ average_plot <- ggplot(data= dataset.df, aes( x = gender,y = time_spent)) +
   stat_summary(fun = "mean", geom = "bar", fill = c("blue","red","orange"), color = "black", alpha = 0.6) +
   labs(title = "Average Time Spent by Gender", x = "Gender", y = "Average Time Spent")
 average_plot
-
+# make text appear on top of the bars
 #(Frances) stacked bar plot of average time spent by location and Platform
 # to show the relationship among average time, location (3 countries), and platform.
 # got a problem here, the number of y axis seems wrong!!!!!!!!!!! 
 Time_spent_Mean <- mean(dataset.df$time_spent)
 
-stacked_bar_plot <- ggplot(data= dataset.df, aes(x = location, y = Time_spent_Mean, fill = platform)) + 
+stacked_bar_plot <- ggplot(data= dataset.df, aes(x = location, y = time_spent, fill = platform)) + 
                     geom_bar(stat = "identity", position = "stack") +
-                    labs(title = "Average Time Spent by Location and Platform on Social Media",
-                        x = "Location", y = "Average Time Spent")
+                    labs(title = "Total Time Spent by Location and Platform on Social Media",
+                        x = "Location", y = "Total Time Spent")
 
 stacked_bar_plot
+
+# keep^ but pls add text on top of bar
 ########################## Time 2024-03-30-0:31 Frances################
 
 
@@ -253,7 +256,8 @@ for(col in names(dataset.df)) {
   if(is.numeric(dataset.df[[col]])) {
     # Create a histogram
     p <- ggplot(dataset.df, aes_string(col)) + 
-      geom_histogram(binwidth = 10, fill = "green", color = "black") +
+      geom_histogram(binwidth = 1000, fill = "green", color = "black") +
+      scale_x_continuous(breaks = seq(min(dataset.df$income), max(dataset.df$income), by = 1000)) +
       labs(title = paste("Histogram of", col),
            x = col,
            y = "Frequency")
@@ -262,11 +266,12 @@ for(col in names(dataset.df)) {
 }
 
 ######################################
+# Pls add more group in x axis
 
 #(Frances)average time spent in different income groups by prefession
 # group the income
-dataset.df$income_group <- cut(dataset.df$income, breaks = c(10012, 12512, 15012, 17512, 19980), include.lowest = TRUE, right = FALSE,
-                            labels = c("10012-12511", "12512-15011", "15012-17511", "17512-19980")) 
+dataset.df$income_group <- cut(dataset.df$income, breaks = c(10000, 12500, 15000, 17500, 20000), include.lowest = TRUE, right = FALSE,
+                            labels = c("10000-12500", "12500-15000", "15000-17500", "17500-20000")) 
 
 #group a new dataset, %>% is a chain operator to chain together multiple operations
 #The .groups = "drop" argument ensures that the grouping is dropped after summarization to avoid issues with plotting.
@@ -300,13 +305,14 @@ Time_Gender_Age_heatmap <- ggplot(data = dataset_subset, aes(x = gender , y = ag
   labs(title = "Heatmap of Time spent by Gender and Age",
       x = "Gender",
       y = "Age (years)",
-      fill = "Time spent")
+      fill = "Time spent") +
+  facet_wrap(~isHomeOwner)
 
 Time_Gender_Age_heatmap
 
-
+# keep ^
 ###############################################
-
+# use time_spent instead of time_spent_mean
 
 #### Frances's problem - stacked bar chart for location, platform vs time spent & y axis value issue ####
 
