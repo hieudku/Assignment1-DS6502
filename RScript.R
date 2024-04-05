@@ -154,14 +154,20 @@ average_plot
 #(Frances) stacked bar plot of average time spent by location and Platform
 # to show the relationship among average time, location (3 countries), and platform.
 # got a problem here, the number of y axis seems wrong!!!!!!!!!!! 
-Time_spent_Mean <- mean(dataset.df$time_spent)
 
-stacked_bar_plot <- ggplot(data= dataset.df, aes(x = location, y = time_spent, fill = platform)) + 
-                    geom_bar(stat = "identity", position = "stack") +
-                    labs(title = "Total Time Spent by Location and Platform on Social Media",
-                        x = "Location", y = "Total Time Spent")
+# Calculate total time spent by location and platform (mia)
+total_time_spent <- aggregate(time_spent ~ location + platform, data = dataset.df, sum)
+
+# Create stacked bar plot
+stacked_bar_plot <- ggplot(data = total_time_spent, aes(x = location, y = time_spent, fill = platform)) + 
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Total Time Spent by Location and Platform on Social Media",
+       x = "Location", y = "Total Time Spent") +
+  # Add text labels for total time spent on each bar
+  geom_text(aes(label = paste(time_spent, "hours")), position = position_stack(vjust = 0.5))
 
 stacked_bar_plot
+
 
 # keep^ but pls add text on top of bar
 ########################## Time 2024-03-30-0:31 Frances################
