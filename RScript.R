@@ -336,7 +336,7 @@ ggplot(dataset.df, aes(x = time_spent)) +
   scale_fill_gradient(low = "green", high = "red") +  # Sets the gradient color scale for the fill color of the histogram bars.
   ggtitle("Histogram with Density Curve for Time Spent") + # Sets the title of the plot.
   
-  facet_wrap(~ gender) # Solution to lack of trends - we compare between countries!
+  facet_wrap(~ gender) # split into groups of genders
 
 ##########################################################
 
