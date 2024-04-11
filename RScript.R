@@ -366,14 +366,14 @@ timeSpent_boxplot <- ggplot(dataset.df, aes(y = time_spent)) +
   geom_point(aes(x = 0),color = "red", size = 3) + # Adds a red point to represent the mean value of 'time_spent'.
   # Adds text annotations to display the actual 'time_spent' values.
   geom_text(aes(x = 0.05),label = dataset.df$time_spent, vjust = -0.5, size = 3) +
-  scale_y_continuous(labels = scales::comma)S +
+  scale_y_continuous(labels = scales::comma) +
   ylab("Time Spent") + #  Sets the y-axis label.
   ggtitle("Boxplot of time spent on social media") + # Sets the title of the plot
   
   # Adds text annotations for descriptive statistics
   annotate("text", x = 0.2, y = Inf, hjust = 0, vjust = 1,
            label = paste("Mean:", round(mean(dataset.df$time_spent), 2), "\n",
-                         "Median:", round(median(dataset.df$time_spent), 2), S"\n",
+                         "Median:", round(median(dataset.df$time_spent), 2), "\n",
                          "SD:", round(sd(dataset.df$time_spent), 2), "\n",
                          "Min:", min(dataset.df$time_spent), "\n",
                          "Max:", max(dataset.df$time_spent)))
